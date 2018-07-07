@@ -1,3 +1,8 @@
+/*
+@author: Emad Bin Abid
+@date: July 07, 2018
+*/
+
 //Ellipse
 function Ellipse(vector_point, radiusX, radiusY, stroke_or_fill)
 {
@@ -201,7 +206,7 @@ function PolyLine(array_of_vectors)
 }
 
 //DashedLine
-function DashedLine(startX, startY, endX, endY, speed)
+function DLine(startX, startY, endX, endY, speed)
 {
 	this.startX = startX;
 	this.startY = startY;
@@ -214,70 +219,156 @@ function DashedLine(startX, startY, endX, endY, speed)
 	this.y2 = this.endY;
 
 	this.slope = (this.y2 - this.y1)/(this.x2 - this.x1);
-
 	this.speed = speed;
-
 	this.offset = 0;
+
+	this.red = 0;
+	this.green = 0;
+	this.blue = 0;
+	this.alpha = 255;
+
+	this.color = function(r, g, b, a)
+	{
+		this.red = r;
+		this.green = g;
+		this.blue = b;
+		this.alpha = a;
+	}
 	
 	this.move = function()
 	{
+		if(this.x1 > this.x2)
+		{
+			var tempX = this.x1;
+			var tempY = this.y1;
+
+			this.x1 = this.x2;
+			this.y1 = this.y2;
+			this.x2 = tempX;
+			this.y2 = tempY;
+		}
 
 		if(this.offset%this.speed === 0)
 		{
+			stroke(this.red, this.green, this.blue, this.alpha);
 
-			clear();
-			background(123, 123, 223);	
-			stroke(0);
-
-			console.log(typeof(this.y2));
-					
-			line(this.x1, this.y1, (this.x1 + 10), this.y1 + ((this.x1 + 10) - this.x1)*this.slope);
-			
-			this.x1 += 10;
-			this.y1 += ((this.x1 + 10) - this.x1)*this.slope;
-
-			line((this.x1 + 10), this.y1 + ((this.x1 + 10) - this.x1)*this.slope, (this.x1 + 20), this.y1 + ((this.x1 + 20) - this.x1)*this.slope);
-
-			this.x1 += 10;
-			this.y1 += ((this.x1 + 10) - this.x1)*this.slope;
-
-			line((this.x1 + 20), this.y1 + ((this.x1 + 20) - this.x1)*this.slope, (this.x1 + 30), this.y1 + ((this.x1 + 30) - this.x1)*this.slope);
-
-			this.x1 += 10;
-			this.y1 += ((this.x1 + 10) - this.x1)*this.slope;
-
-			line((this.x1 + 30), this.y1 + ((this.x1 + 30) - this.x1)*this.slope, (this.x1 + 40), this.y1 + ((this.x1 + 40) - this.x1)*this.slope);
-
-			this.x1 += 10;
-			this.y1 += ((this.x1 + 10) - this.x1)*this.slope;
-
-			line((this.x1 + 40), this.y1 + ((this.x1 + 40) - this.x1)*this.slope, (this.x1 + 50), this.y1 + ((this.x1 + 50) - this.x1)*this.slope);
-
-			this.x1 += 10;
-			this.y1 += ((this.x1 + 10) - this.x1)*this.slope;
-
-			line((this.x1 + 50), this.y1 + ((this.x1 + 50) - this.x1)*this.slope, (this.x1 + 60), this.y1 + ((this.x1 + 60) - this.x1)*this.slope);
-
-			this.x1 += 10;
-			this.y1 += ((this.x1 + 10) - this.x1)*this.slope;
-
-			line((this.x1 + 60), this.y1 + ((this.x1 + 60) - this.x1)*this.slope, (this.x1 + 70), this.y1 + ((this.x1 + 70) - this.x1)*this.slope);
-
-			this.x1 += 10;
-			this.y1 += ((this.x1 + 10) - this.x1)*this.slope;
-
-
-			if(this.x1 > this.x2)
+			if(this.x1 == this.x2)
 			{
-				this.x1 = this.startX;
-				this.y1 = this.startY;
-				this.x2 = this.endX;
-				this.y2 = this.endY;
+				line(this.x1, this.y1, this.x1, this.y1 + 10);
+				this.y1 += 20;
+
+				line(this.x1, this.y1, this.x1, this.y1 + 10);
+				this.y1 += 20;
+
+				line(this.x1, this.y1, this.x1, this.y1 + 10);
+				this.y1 += 20;
+
+				line(this.x1, this.y1, this.x1, this.y1 + 10);
+				this.y1 += 20;
+
+				if(this.y1 > this.y2)
+				{
+					this.x1 = this.startX;
+					this.y1 = this.startY;
+					this.x2 = this.endX;
+					this.y2 = this.endY;
+				}
+			}
+			else
+			{
+				line(this.x1, this.y1, (this.x1 + 10), this.y1 + ((this.x1 + 10) - this.x1)*this.slope);
+			
+				this.x1 += 10;
+				this.y1 += ((this.x1 + 10) - this.x1)*this.slope;
+
+				line((this.x1 + 10), this.y1 + ((this.x1 + 10) - this.x1)*this.slope, (this.x1 + 20), this.y1 + ((this.x1 + 20) - this.x1)*this.slope);
+
+				this.x1 += 10;
+				this.y1 += ((this.x1 + 10) - this.x1)*this.slope;
+
+				line((this.x1 + 20), this.y1 + ((this.x1 + 20) - this.x1)*this.slope, (this.x1 + 30), this.y1 + ((this.x1 + 30) - this.x1)*this.slope);
+
+				this.x1 += 10;
+				this.y1 += ((this.x1 + 10) - this.x1)*this.slope;
+
+				line((this.x1 + 30), this.y1 + ((this.x1 + 30) - this.x1)*this.slope, (this.x1 + 40), this.y1 + ((this.x1 + 40) - this.x1)*this.slope);
+
+				this.x1 += 10;
+				this.y1 += ((this.x1 + 10) - this.x1)*this.slope;
+
+				line((this.x1 + 40), this.y1 + ((this.x1 + 40) - this.x1)*this.slope, (this.x1 + 50), this.y1 + ((this.x1 + 50) - this.x1)*this.slope);
+
+				this.x1 += 10;
+				this.y1 += ((this.x1 + 10) - this.x1)*this.slope;
+
+				line((this.x1 + 50), this.y1 + ((this.x1 + 50) - this.x1)*this.slope, (this.x1 + 60), this.y1 + ((this.x1 + 60) - this.x1)*this.slope);
+
+				this.x1 += 10;
+				this.y1 += ((this.x1 + 10) - this.x1)*this.slope;
+
+				line((this.x1 + 60), this.y1 + ((this.x1 + 60) - this.x1)*this.slope, (this.x1 + 70), this.y1 + ((this.x1 + 70) - this.x1)*this.slope);
+
+				this.x1 += 10;
+				this.y1 += ((this.x1 + 10) - this.x1)*this.slope;
+
+
+				if(this.x1 > this.x2)
+				{
+					this.x1 = this.startX;
+					this.y1 = this.startY;
+					this.x2 = this.endX;
+					this.y2 = this.endY;
+				}
 			}
 		}
 		this.offset++;
 	}
 }
+
+// //PolyDashedLine
+// function PolyDLine(array_of_vectors, speed)
+// {
+// 	this.array_of_vectors = array_of_vectors;
+// 	this.speed = speed;
+
+// 	var dashedLine = null;
+
+// 	this.dashedLineArray  = [];
+
+// 	for(var i=0; i<this.array_of_vectors.length-1; i++)
+// 	{
+// 		dashedLine = new DLine(array_of_vectors[i].x, array_of_vectors[i].y, array_of_vectors[i+1].x, array_of_vectors[i+1].y, this.speed);
+// 		this.dashedLineArray[i] = dashedLine;
+// 	}
+
+// 	this.red = 0;
+// 	this.green = 0;
+// 	this.blue = 0;
+// 	this.alpha = 255;
+
+// 	this.color = function(r, g, b, a)
+// 	{
+// 		this.red = r;
+// 		this.green = g;
+// 		this.blue = b;
+// 		this.alpha = a;
+
+// 		for(var i=0; i<this.dashedLineArray.length-1; i++)
+// 		{
+// 			this.dashedLineArray[i].color(this.red, this.green, this.blue, this.alpha);
+// 		}
+// 	}
+
+// 	this.move = function()
+// 	{
+// 		for(var i=0; i<this.dashedLineArray.length-1; i++)
+// 		{
+// 			console.log(i);
+// 			this.dashedLineArray[i].move(this.red, this.green, this.blue, this.alpha);
+// 		}	
+// 	}
+
+// }
 
 //Tooltip
 function Tooltip(title, startX, startY, width, height)
